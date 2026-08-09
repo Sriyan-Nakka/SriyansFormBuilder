@@ -1,0 +1,73 @@
+body {
+  text-align: center;
+}
+header {
+  text-align: center;
+  font-size: 1.3rem;
+  margin-top: 10px;
+}
+h2 {
+  margin: 10px 0;
+  font-size: 1.8rem;
+  font-family: Lexend, serif;
+}
+main {
+  margin: 10px;
+  padding: 20px;
+  padding-bottom: 20px;
+  padding-top: 15px;
+  margin-top: 20px;
+  background-color: hsl(0, 0%, 10%);
+  border-radius: 15px;
+
+  display: block;
+  width: min(345px, 100%);
+  margin: 10px auto;
+  box-sizing: border-box;
+}
+form {
+  padding: 5px;
+  padding-bottom: 0;
+}
+form p {
+  margin: 15px 0;
+}
+form p:last-child {
+  margin-bottom: 5px;
+}
+input {
+  color: white;
+  font-size: 1.3rem;
+  background-color: hsl(0, 0%, 25%);
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+}
+input:not([type="checkbox"]):not([type="radio"]) {
+  outline: 2px solid white;
+}
+input:not([type="checkbox"]):not([type="radio"]):not(
+    :placeholder-shown
+  ):user-valid {
+  outline: 2px solid var(--green);
+}
+input:not([type="checkbox"]):not([type="radio"]):not(
+    :placeholder-shown
+  ):user-invalid {
+  outline: 2px solid var(--red);
+}
+label[for="showPass"] {
+  display: block;
+  text-align: left;
+  margin-left: 8px;
+}
+small {
+  font-size: 1.1rem;
+}
+button[type="submit"] {
+  width: calc(100%-20px);
+  box-sizing: border-box;
+  font-size: 1.3rem;
+  text-align: center;
+  width: 290px;
+}

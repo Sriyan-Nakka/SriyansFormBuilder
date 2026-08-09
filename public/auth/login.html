@@ -8,49 +8,9 @@
       name="description"
       content="An easy to use Form Builder which is totally free to use!"
     />
-    <link rel="stylesheet" href="assets/global.css" />
+    <link rel="stylesheet" href="../assets/global.css" />
+    <link rel="stylesheet" href="../assets/auth.css" />
     <title>Sriyan's Form Builder | Sign Up</title>
-    <style>
-      body {
-        text-align: center;
-      }
-      header {
-        text-align: center;
-        font-size: 1.3rem;
-        margin-top: 10px;
-      }
-      h2 {
-        margin: 15px 0;
-        font-size: 1.8rem;
-        font-family: Lexend, serif;
-      }
-      main {
-        margin: 10px;
-        padding: 20px;
-        padding-top: 15px;
-        margin-top: 20px;
-        background-color: hsl(0, 0%, 10%);
-        border-radius: 15px;
-        display: inline-block;
-      }
-      form {
-        padding: 5px;
-      }
-      form p {
-        margin: 15px 0;
-      }
-      input {
-        color: white;
-        font-size: 1.3rem;
-        background-color: hsl(0, 0%, 25%);
-        border: none;
-        border-radius: 5px;
-        padding: 10px;
-      }
-      label {
-        text-align: left;
-      }
-    </style>
   </head>
   <body>
     <script src="script.js" defer></script>
@@ -61,23 +21,26 @@
       </h1>
     </header>
     <main>
-      <h2>Create Your Account</h2>
-      <form id="signupForm" method="POST">
+      <h2>Log In To Your Account</h2>
+      <form id="loginForm" method="POST">
         <p>
           <input
-            type="email"
-            placeholder="Email"
-            name="email"
-            id="email"
+            type="text"
+            placeholder="Username or Email"
+            name="name"
+            id="name"
+            autocomplete="off"
             required
           />
         </p>
-        <p>
+        <p id="passwordPara">
           <input
             type="password"
             placeholder="Password"
             name="password"
             id="password"
+            minlength="8"
+            pattern="^(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$"
             required
           />
           <br />
@@ -87,9 +50,14 @@
               Show Password
             </small>
           </label>
-          <br />
         </p>
+        <p><button type="submit">Log In</button></p>
       </form>
+      <span>
+        <small>
+          Don't have an account? <a href="/signup"><b>Sign Up</b></a>
+        </small>
+      </span>
     </main>
     <footer>
       <span class="links">
@@ -181,5 +149,37 @@
       &copy; Copyright, Sai Sriyan Nakka 2026, All Rights Reserved.
       <br />Version 1.0.0 <br />
     </footer>
+
+    <script>
+      document
+        .querySelector("#showPass")
+        .addEventListener("change", function () {
+          if (this.checked) {
+            document.querySelector("#password").type = "text";
+          } else {
+            document.querySelector("#password").type = "password";
+          }
+        });
+
+      // document
+      //   .querySelector("#loginForm")
+      //   .addEventListener("submit", function (e) {
+      //     e.preventDefault();
+
+      //     fetch("/api/auth/signup", {
+      //       method: "POST",
+      //       headers: {
+      //         "Content-Type": "application/json",
+      //       },
+      //       body: JSON.stringify({
+      //         username: document.querySelector("#username").value,
+      //         email: document.querySelector("#email").value,
+      //         password: document.querySelector("#password").value,
+      //       }),
+      //     });
+
+      //     window.location.href = "/signup/success";
+      //   });
+    </script>
   </body>
 </html>
