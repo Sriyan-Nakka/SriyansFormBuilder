@@ -17,16 +17,14 @@
     <header>
       <h1>
         <span style="color: var(--accent2)"> Sriyan's </span>
-        <br />
-        Form
-        <br />
-        Builder
+        Form Builder
       </h1>
     </header>
     <main>
-      <h1>Welcome, <span id="username"></span>!</h1>
-
-      <script></script>
+      <div>
+        <h2>Congratulations, <span id="username"></span>!</h2>
+        Your Account has been created! <a href="/login">Login</a>
+      </div>
       SIGNUP COMPLETE
     </main>
     <footer>
@@ -121,16 +119,36 @@
     </footer>
 
     <script>
-      document.querySelector("#username").textContent =
-        sessionStorage.getItem("username");
+      if (!getCookie("username")) {
+        window.location.href = "/login";
+      } else if (getCookie("username")) {
+        document.querySelector("#username").textContent =
+          "@" + getCookie("username");
+      }
 
-      fetch("/api/auth/me")
-        .then((r) => r.json())
-        .then((data) => {
-          if (data.loggedIn) {
-            console.log(data[0].user.username);
+      function setCookie(name, value, days) {
+        const date = new Date();
+        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+        document.cookie = name + "=" + value + ";expires=" + date.toUTCString();
+      }
+
+      function getCookie(name) {
+        const cDecoded = decodeURIComponent(document.cookie);
+        const cArray = cDecoded.split("; ");
+        let result = null;
+
+        cArray.forEach((element) => {
+          if (element.indexOf(name) == 0) {
+            result = element.substring(name.length + 1);
           }
         });
+        return result;
+      }
+
+      function deleteCookie(name) {
+        document.cookie =
+          name + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+      }
     </script>
   </body>
 </html>

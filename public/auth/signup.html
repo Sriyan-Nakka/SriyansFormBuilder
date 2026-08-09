@@ -183,32 +183,63 @@
           }
         });
 
+      // async function checkUsername() {
+      //   const accName = document.querySelector("#accountName").value;
+      //   const username = document.querySelector("#username").value;
+
+      //   const res = await fetch("/api/auth/signup/check-username", {
+      //     method: "POST",
+      //     headers: { "Content-Type": "application/json" },
+      //     body: JSON.stringify({ accName, username }),
+      //   });
+
+      //   const data = await res.json();
+
+      //   if (data.success) {
+      //     document.querySelector("#username").value = data.username;
+      //     return true;
+      //   } else {
+      //     alert("Username already taken!");
+      //     return false;
+      //   }
+      // }
+
       document
         .querySelector("#signupForm")
         .addEventListener("submit", async function (e) {
           e.preventDefault();
 
-          const response = await fetch("/api/auth/signup", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              accName: document.querySelector("#accountName").value,
-              username: document.querySelector("#username").value,
-              password: document.querySelector("#password").value,
-            }),
-          });
+          try {
+            const response = await fetch("/api/auth/signup", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                accName: document.querySelector("#accountName").value,
+                username: document.querySelector("#username").value,
+                password: document.querySelector("#password").value,
+              }),
+            });
 
-          const data = await response.json();
+            const data = await response.json();
+            console.log("signup response:", data);
 
-          if (data.success) {
-            sessionStorage.setItem("username", data.username);
-            window.location.href = "/signup/success";
-          } else {
-            alert("Signup failed:", data.message);
+            if (data.success) {
+              setCookie("username", data.username, 30);
+              window.location.href = "/signup/success";
+              return;
+            }
+
+            alert("Signup failed: " + (data.message || ""));
+          } catch (err) {
+            console.error(err);
           }
         });
+
+      function setCookie(name, value, days) {
+        const date = new Date();
+        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+        document.cookie = name + "=" + value + ";expires=" + date.toUTCString();
+      }
     </script>
   </body>
 </html>
