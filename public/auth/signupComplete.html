@@ -23,7 +23,12 @@
         Builder
       </h1>
     </header>
-    <main>SIGNUP COMPLETE</main>
+    <main>
+      <h1>Welcome, <span id="username"></span>!</h1>
+
+      <script></script>
+      SIGNUP COMPLETE
+    </main>
     <footer>
       <span class="links">
         <a
@@ -114,5 +119,18 @@
       &copy; Copyright, Sai Sriyan Nakka 2026, All Rights Reserved.
       <br />Version 1.0.0 <br />
     </footer>
+
+    <script>
+      document.querySelector("#username").textContent =
+        sessionStorage.getItem("username");
+
+      fetch("/api/auth/me")
+        .then((r) => r.json())
+        .then((data) => {
+          if (data.loggedIn) {
+            console.log(data[0].user.username);
+          }
+        });
+    </script>
   </body>
 </html>
