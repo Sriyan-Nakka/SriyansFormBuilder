@@ -9,16 +9,23 @@
       content="An easy to use Form Builder which is totally free to use!"
     />
     <link rel="stylesheet" href="../assets/global.css" />
-    <title>Sriyan's Form Builder | Login</title>
+    <link rel="stylesheet" href="../assets/loader.css" />
+    <title>Sriyan's Form Builder | Dashboard</title>
     <style>
       header,
       main {
         text-align: center;
       }
+      h1 {
+        font-size: 2.6rem;
+      }
     </style>
   </head>
   <body>
-    <script src="script.js" defer></script>
+    <div id="loadingOverlay">
+      <div class="spinner" aria-label="Loading"></div>
+    </div>
+
     <header>
       <h1>
         <span style="color: var(--accent2)"> Sriyan's </span>
@@ -116,34 +123,35 @@
       &copy; Copyright, Sai Sriyan Nakka 2026, All Rights Reserved.
       <br />Version 1.0.0 <br />
     </footer>
-
     <script type="module">
       import { getCookie } from "../assets/cookieFunctions.js";
 
-      document.body.style.display = "none";
+      const overlay = document.getElementById("loadingOverlay");
+
       const dashboardUsername = getCookie("dashboardUsername");
 
-      if (!dashboardUsername) {
-        window.location.href = "/login";
-      } else {
+      try {
+        if (!dashboardUsername) {
+          window.location.href = "/login";
+        }
+
         const res = await fetch("/api/user", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: dashboardUsername,
-          }),
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username: dashboardUsername }),
         });
 
         const data = await res.json();
 
         if (data.success) {
           document.querySelector("#accountName").textContent = data.accountName;
-          document.body.style.display = "block";
         } else {
           alert(data.message);
         }
+      } catch (err) {
+        alert("Something went wrong.");
+      } finally {
+        overlay.style.display = "none";
       }
     </script>
   </body>

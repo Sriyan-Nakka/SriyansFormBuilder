@@ -25,7 +25,6 @@
     </style>
   </head>
   <body>
-    <script src="script.js" defer></script>
     <header>
       <h1>
         <span style="color: var(--accent2)"> Sriyan's </span>
@@ -136,5 +135,18 @@
       &copy; Copyright, Sai Sriyan Nakka 2026, All Rights Reserved.
       <br />Version 1.0.0 <br />
     </footer>
+    <script type="module">
+      import { getCookie } from "./assets/cookieFunctions.js";
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const dashboardUsername = getCookie("dashboardUsername");
+
+        if (dashboardUsername) {
+          window.location.href = "/dashboard";
+        } else {
+          return;
+        }
+      });
+    </script>
   </body>
 </html>
