@@ -24,6 +24,7 @@
         background-color: var(--bg1);
         padding: 15px;
         position: relative;
+        border-radius: 15px;
       }
       #userIcon {
         position: absolute;
@@ -36,33 +37,73 @@
         padding: 0;
         margin: 0;
       }
+      #accountName {
+        --shadow: hsl(300, 100%, 25%);
+        color: var(--accent3);
+        font-weight: bold;
+        text-shadow: 3px 5px 15px var(--shadow);
+      }
 
       #accountInfo {
+        text-align: left;
         position: fixed;
+        top: var(--pos-y, 200px);
+        left: var(--pos-x, 0px);
+
         margin: 0;
         padding: 10px;
-
         display: flex;
         flex-direction: column;
-        gap: 10px;
-
+        gap: 5px;
         border: 2px solid var(--border);
         border-radius: 10px;
 
         opacity: 0;
-
-        top: 200px;
+        transform: translateY(10px);
 
         transition:
           opacity 0.25s ease,
-          top 0.25s ease;
+          transform 0.25s ease,
+          display 0.25s allow-discrete,
+          overlay 0.25s allow-discrete;
 
         pointer-events: none;
       }
 
       #accountInfo:popover-open {
         opacity: 1;
+        transform: translateY(0);
         pointer-events: auto;
+
+        @starting-style {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+      }
+
+      #accountInfo .info {
+        width: 100%;
+      }
+      #editData {
+        width: 100%;
+        background: hsl(0, 0%, 10%);
+        transition: background 0.5s ease-out;
+      }
+      #editData:hover {
+        background: hsl(0, 0%, 20%);
+        transition: background 0.1s ease-out;
+      }
+      #welcomeDiv {
+        font-family: Lexend, sans-serif;
+        font-size: 1.9rem;
+      }
+      @media (max-width: 768px) {
+        #welcomeDiv {
+          margin-top: 70px;
+        }
+        h1 {
+          font-size: 1.6rem;
+        }
       }
     </style>
   </head>
@@ -98,21 +139,48 @@
         </svg>
       </button>
       <div class="popover" id="accountInfo" popover>
-        <div id="pAccName">Name</div>
-        <div id="pUsername">@name</div>
+        <div
+          id="pAccName"
+          class="info"
+          style="font-family: Lexend, serif; font-weight: bold"
+        >
+          Name
+        </div>
+        <small id="pUsername" class="info"> @name </small>
+        <small id="pID" class="info"> id </small>
         <div id="pEdit">
-          <button id="editData">Edit Info</button>
+          <button id="editData">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24px"
+              height="24px"
+              style="transform: translateY(2px)"
+              viewBox="0 0 24 24"
+            >
+              <path d="M0 0h24v24H0z" fill="none" />
+              <path
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                d="m4.144 16.735l.493-3.425a.97.97 0 0 1 .293-.587l9.665-9.664a1.03 1.03 0 0 1 .973-.281a5.1 5.1 0 0 1 2.346 1.372a5.1 5.1 0 0 1 1.384 2.346a1.07 1.07 0 0 1-.282.973l-9.664 9.664a1.17 1.17 0 0 1-.598.294l-3.437.492a1.044 1.044 0 0 1-1.173-1.184m8.633-11.846l4.41 4.398M3.79 21.25h16.42"
+              />
+            </svg>
+            Edit Info
+          </button>
         </div>
       </div>
 
-      <div style="font-family: Lexend, sans-serif; font-size: 2rem">
-        Welcome,
-        <span
-          id="accountName"
-          style="color: var(--accent3); font-weight: bold"
-        ></span>
-        !
+      <div id="welcomeDiv">
+        <span style="text-shadow: 3px 5px 15px hsl(0, 0%, 40%)">
+          Welcome,
+        </span>
+        <wbr />
+        <span id="accountName"> </span>
+        <span style="text-shadow: 3px 5px 15px hsl(0, 0%, 40%)"> ! </span>
       </div>
+
       <p>FORMS</p>
     </main>
     <footer>
@@ -229,6 +297,10 @@
 
         if (data.success) {
           document.querySelector("#accountName").textContent = data.accountName;
+          document.querySelector("#pAccName").textContent = data.accountName;
+          document.querySelector("#pUsername").textContent =
+            "@" + data.username;
+          document.querySelector("#pID").textContent = "ID: " + data.id;
         } else {
           alert(data.message);
         }
@@ -238,26 +310,16 @@
         overlay.style.display = "none";
       }
 
-      const userIcon = document.querySelector("#userIcon");
-      const accountInfo = document.querySelector("#accountInfo");
+      const userIcon = document.getElementById("userIcon");
+      const accountInfo = document.getElementById("accountInfo");
 
       accountInfo.addEventListener("beforetoggle", (e) => {
-        const rect = userIcon.getBoundingClientRect();
-
         if (e.newState === "open") {
-          // Start 125px below the normal position
-          accountInfo.style.top = `${rect.bottom + 20}px`;
+          const rect = userIcon.getBoundingClientRect();
 
-          // Let the browser paint the starting position first
-          requestAnimationFrame(() => {
-            accountInfo.style.top = `${rect.bottom + 8}px`;
-          });
-        } else {
-          // Animate downward when closing
-          accountInfo.style.top = `${rect.bottom + 20}px`;
+          accountInfo.style.setProperty("--pos-x", `${rect.left + 5}px`);
+          accountInfo.style.setProperty("--pos-y", `${rect.bottom}px`);
         }
-
-        accountInfo.style.left = `${rect.left}px`;
       });
     </script>
   </body>

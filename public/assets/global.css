@@ -60,6 +60,7 @@ button {
 }
 button {
   padding: 10px;
+  font-family: Lexend, serif;
   font-size: 1.5rem;
   font-weight: bold;
   border: none;
@@ -76,4 +77,7 @@ h1 {
 main {
   padding: 5px;
   margin: 5px;
+}
+small {
+  font-size: 1rem;
 }
