@@ -159,6 +159,11 @@ app.post("/api/user", async (req, res) => {
     res.status(500).json({ success: false, message: err });
   }
 });
+
+// NOTE: USERNAME CHANGING FEATURE COMING SOON
+// THE PLAN: use the id system to get the account id immediately on open of dashboard. When user wanna change username, use id as main proof.
+// also add feature of showing when editing username that the username is taken if username already present in database...
+
 app.get("/dashboard", (req, res) => {
   res.sendFile(path.join(__dirname, "public/user", "index.html"));
 });
