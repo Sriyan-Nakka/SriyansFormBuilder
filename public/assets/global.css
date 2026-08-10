@@ -1,8 +1,9 @@
 * {
   color-scheme: dark;
 
-  --accent1: rgb(140, 0, 140);
-  --accent2: rgb(165, 0, 165);
+  --accent1: hsl(300, 100%, 24%);
+  --accent2: hsl(300, 100%, 35%);
+  --accent3: hsl(300, 100%, 40%);
   --green: hsl(120, 100%, 45%);
   --red: hsl(0, 100%, 50%);
 }
