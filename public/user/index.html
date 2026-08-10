@@ -10,7 +10,12 @@
     />
     <link rel="stylesheet" href="../assets/global.css" />
     <title>Sriyan's Form Builder | Login</title>
-    <style></style>
+    <style>
+      header,
+      main {
+        text-align: center;
+      }
+    </style>
   </head>
   <body>
     <script src="script.js" defer></script>
@@ -115,6 +120,7 @@
     <script type="module">
       import { getCookie } from "../assets/cookieFunctions.js";
 
+      document.body.style.display = "none";
       const dashboardUsername = getCookie("dashboardUsername");
 
       if (!dashboardUsername) {
@@ -134,6 +140,7 @@
 
         if (data.success) {
           document.querySelector("#accountName").textContent = data.accountName;
+          document.body.style.display = "block";
         } else {
           alert(data.message);
         }

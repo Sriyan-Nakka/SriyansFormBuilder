@@ -10,12 +10,34 @@
     />
     <link rel="stylesheet" href="../assets/global.css" />
     <title>Sriyan's Form Builder | Login</title>
-    <style></style>
+    <style>
+      body {
+        text-align: center;
+      }
+      h2 {
+        margin: 10px;
+        margin-top: 0;
+        font-size: 2rem;
+      }
+      div {
+        display: inline-block;
+        padding: 20px;
+        border-radius: 10px;
+        background: linear-gradient(
+          120deg,
+          hsl(0, 0%, 5%),
+          hsl(0, 0%, 5%),
+          hsl(0, 0%, 5%),
+          hsl(0, 0%, 10%)
+        );
+        border: 1px solid hsl(0, 0%, 25%);
+      }
+    </style>
   </head>
   <body>
     <script src="script.js" defer></script>
     <header>
-      <h1>
+      <h1 style="font-size: 2.6rem">
         <span style="color: var(--accent2)"> Sriyan's </span>
         Form Builder
       </h1>
@@ -25,7 +47,6 @@
         <h2>Congratulations, <span id="username"></span></h2>
         Your Account has been created! <a href="/login">Login</a>
       </div>
-      SIGNUP COMPLETE
     </main>
     <footer>
       <span class="links">
