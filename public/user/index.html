@@ -18,10 +18,56 @@
       }
       h1 {
         font-size: 2.6rem;
+        margin: 15px 0;
+      }
+      main {
+        background-color: var(--bg1);
+        padding: 15px;
+        position: relative;
+      }
+      #userIcon {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background: none;
+        padding: 5px;
+      }
+      #userIcon svg {
+        padding: 0;
+        margin: 0;
+      }
+
+      #accountInfo {
+        position: fixed;
+        margin: 0;
+        padding: 10px;
+
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        border: 2px solid var(--border);
+        border-radius: 10px;
+
+        opacity: 0;
+
+        top: 200px;
+
+        transition:
+          opacity 0.25s ease,
+          top 0.25s ease;
+
+        pointer-events: none;
+      }
+
+      #accountInfo:popover-open {
+        opacity: 1;
+        pointer-events: auto;
       }
     </style>
   </head>
   <body>
+    <!-- <script src="/user/assets/script.js" defer></script> -->
     <div id="loadingOverlay">
       <div class="spinner" aria-label="Loading"></div>
     </div>
@@ -32,7 +78,43 @@
         Form Builder
       </h1>
     </header>
-    <main>WELCOME TO YOUR DASHBOARD, <span id="accountName"></span></main>
+    <main>
+      <button id="userIcon" popovertarget="accountInfo">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="48px"
+          height="48px"
+          viewBox="0 0 48 48"
+        >
+          <path d="M0 0h48v48H0z" fill="none" />
+          <g fill="currentColor">
+            <path d="M32 20a8 8 0 1 1-16 0a8 8 0 0 1 16 0" />
+            <path
+              fill-rule="evenodd"
+              d="M23.184 43.984C12.517 43.556 4 34.772 4 24C4 12.954 12.954 4 24 4s20 8.954 20 20s-8.954 20-20 20h-.274q-.272 0-.542-.016M11.166 36.62a3.028 3.028 0 0 1 2.523-4.005c7.796-.863 12.874-.785 20.632.018a2.99 2.99 0 0 1 2.498 4.002A17.94 17.94 0 0 0 42 24c0-9.941-8.059-18-18-18S6 14.059 6 24c0 4.916 1.971 9.373 5.166 12.621"
+              clip-rule="evenodd"
+            />
+          </g>
+        </svg>
+      </button>
+      <div class="popover" id="accountInfo" popover>
+        <div id="pAccName">Name</div>
+        <div id="pUsername">@name</div>
+        <div id="pEdit">
+          <button id="editData">Edit Info</button>
+        </div>
+      </div>
+
+      <div style="font-family: Lexend, sans-serif; font-size: 2rem">
+        Welcome,
+        <span
+          id="accountName"
+          style="color: var(--accent3); font-weight: bold"
+        ></span>
+        !
+      </div>
+      <p>FORMS</p>
+    </main>
     <footer>
       <span class="links">
         <a
@@ -123,8 +205,10 @@
       &copy; Copyright, Sai Sriyan Nakka 2026, All Rights Reserved.
       <br />Version 1.0.0 <br />
     </footer>
+
     <script type="module">
       import { getCookie } from "../assets/cookieFunctions.js";
+      console.log("SCRIPT LOADED");
 
       const overlay = document.getElementById("loadingOverlay");
 
@@ -153,6 +237,28 @@
       } finally {
         overlay.style.display = "none";
       }
+
+      const userIcon = document.querySelector("#userIcon");
+      const accountInfo = document.querySelector("#accountInfo");
+
+      accountInfo.addEventListener("beforetoggle", (e) => {
+        const rect = userIcon.getBoundingClientRect();
+
+        if (e.newState === "open") {
+          // Start 125px below the normal position
+          accountInfo.style.top = `${rect.bottom + 20}px`;
+
+          // Let the browser paint the starting position first
+          requestAnimationFrame(() => {
+            accountInfo.style.top = `${rect.bottom + 8}px`;
+          });
+        } else {
+          // Animate downward when closing
+          accountInfo.style.top = `${rect.bottom + 20}px`;
+        }
+
+        accountInfo.style.left = `${rect.left}px`;
+      });
     </script>
   </body>
 </html>

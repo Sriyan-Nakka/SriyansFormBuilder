@@ -150,8 +150,9 @@ app.post("/api/user", async (req, res) => {
       return res.json({
         success: true,
         message: "User found",
-        accountName: user.accName,
+        id: user.id,
         username: user.username,
+        accountName: user.accName,
       });
     }
   } catch (err) {
