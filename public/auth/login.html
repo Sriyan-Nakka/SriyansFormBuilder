@@ -23,16 +23,18 @@
     <main>
       <h2>Log In To Your Account</h2>
       <form id="loginForm" method="POST">
-        <p>
+        <div id="username-input">
+          <span id="username-prefix">@</span>
           <input
             type="text"
-            placeholder="Username or Email"
-            name="name"
-            id="name"
+            placeholder="username (optional)"
+            name="username"
+            id="username"
+            onkeyup="this.value = this.value.replace(/\s/g, '')"
             autocomplete="off"
-            required
+            minlength="5"
           />
-        </p>
+        </div>
         <p id="passwordPara">
           <input
             type="password"
@@ -161,25 +163,47 @@
           }
         });
 
-      // document
-      //   .querySelector("#loginForm")
-      //   .addEventListener("submit", function (e) {
-      //     e.preventDefault();
+      document
+        .querySelector("#loginForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
 
-      //     fetch("/api/auth/signup", {
-      //       method: "POST",
-      //       headers: {
-      //         "Content-Type": "application/json",
-      //       },
-      //       body: JSON.stringify({
-      //         username: document.querySelector("#username").value,
-      //         email: document.querySelector("#email").value,
-      //         password: document.querySelector("#password").value,
-      //       }),
-      //     });
+          try {
+            const res = await fetch("/api/auth/login", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                username: document.querySelector("#username").value,
+                password: document.querySelector("#password").value,
+              }),
+            });
 
-      //     window.location.href = "/signup/success";
-      //   });
+            const data = await res.json();
+
+            alert(data.message);
+
+            if (data.success) {
+              setCookie(
+                "dashboardUsername",
+                document.querySelector("#username").value,
+                30,
+              );
+              window.location.href = "/dashboard";
+            } else {
+              return;
+            }
+          } catch (err) {
+            console.error(err);
+          }
+        });
+
+      function setCookie(name, value, days) {
+        const date = new Date();
+        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+        document.cookie = `${name}=${encodeURIComponent(value)};expires=${date.toUTCString()};path=/`;
+      }
     </script>
   </body>
 </html>

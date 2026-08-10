@@ -20,13 +20,7 @@
         Form Builder
       </h1>
     </header>
-    <main>
-      <div>
-        <h2>Congratulations, <span id="username"></span></h2>
-        Your Account has been created! <a href="/login">Login</a>
-      </div>
-      SIGNUP COMPLETE
-    </main>
+    <main>WELCOME TO YOUR DASHBOARD, <span id="accountName"></span></main>
     <footer>
       <span class="links">
         <a
@@ -121,12 +115,28 @@
     <script type="module">
       import { getCookie } from "../assets/cookieFunctions.js";
 
-      const username = getCookie("username");
+      const dashboardUsername = getCookie("dashboardUsername");
 
-      if (!username) {
+      if (!dashboardUsername) {
         window.location.href = "/login";
       } else {
-        document.querySelector("#username").textContent = "@" + username;
+        const res = await fetch("/api/user", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: dashboardUsername,
+          }),
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          document.querySelector("#accountName").textContent = data.accountName;
+        } else {
+          alert(data.message);
+        }
       }
     </script>
   </body>

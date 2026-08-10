@@ -89,9 +89,9 @@ app.get("/login", (req, res) => {
   res.sendFile(path.join(__dirname, "public/auth", "login.html"));
 });
 
-app.get("/api/auth/login", async (req, res) => {
+app.post("/api/auth/login", async (req, res) => {
   try {
-    const { username, password } = req.query;
+    const { username, password } = req.body;
 
     const result = await db.execute({
       sql: "SELECT * FROM users WHERE username = ?",
@@ -116,11 +116,6 @@ app.get("/api/auth/login", async (req, res) => {
       });
     }
 
-    req.session.user = {
-      id: user.id,
-      username: user.username,
-    };
-
     res.json({
       success: true,
       message: "Login successful",
@@ -133,6 +128,39 @@ app.get("/api/auth/login", async (req, res) => {
       message: "Server error",
     });
   }
+});
+
+app.post("/api/user", async (req, res) => {
+  try {
+    const { username } = req.body;
+
+    const result = await db.execute({
+      sql: "SELECT * FROM users WHERE username = ?",
+      args: [username],
+    });
+
+    const user = result.rows[0];
+
+    if (!user) {
+      return res.json({
+        success: false,
+        message: "User not found",
+      });
+    } else {
+      return res.json({
+        success: true,
+        message: "User found",
+        accountName: user.accName,
+        username: user.username,
+      });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: err });
+  }
+});
+app.get("/dashboard", (req, res) => {
+  res.sendFile(path.join(__dirname, "public/user", "index.html"));
 });
 
 const PORT = process.env.PORT || 3001;

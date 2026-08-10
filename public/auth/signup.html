@@ -66,14 +66,24 @@
               Show Password
             </small>
           </label>
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            id="confirmPassword"
+            minlength="8"
+            pattern="^(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$"
+            style="margin: 10px 0; width: 100%"
+            required
+          />
           <small class="warning">
             <b> Note: </b>
             your password should be a minimum of
             <b> 8 characters </b> , with <b> 1 number </b> and
-            <b> 1 special character </b>.
+            <b> 1 special character </b>. You <b> cannot </b> change or reset
+            your password later.
           </small>
         </p>
-        <p><button type="submit">Sign Up</button></p>
+        <p><button type="submit" id="signupBtn">Sign Up</button></p>
       </form>
       <span>
         <small>
@@ -187,6 +197,16 @@
         .querySelector("#signupForm")
         .addEventListener("submit", async function (e) {
           e.preventDefault();
+          document.querySelector("#signupBtn").disabled = true;
+
+          const confirmPassword =
+            document.querySelector("#confirmPassword").value;
+
+          if (confirmPassword !== document.querySelector("#password").value) {
+            alert("Passwords do not match");
+            document.querySelector("#signupBtn").disabled = false;
+            return;
+          }
 
           try {
             const response = await fetch("/api/auth/signup", {
@@ -200,17 +220,22 @@
             });
 
             const data = await response.json();
-            console.log("signup response:", data);
 
             if (data.success) {
-              setCookie("username", data.username, 30);
+              setCookie("username", data.username, 1);
               window.location.href = "/signup/success";
               return;
             }
 
             alert("Signup failed: " + (data.message || ""));
+            document.querySelector(
+              "#signupForm button[type='submit']",
+            ).disabled = false;
           } catch (err) {
             console.error(err);
+            document.querySelector(
+              "#signupForm button[type='submit']",
+            ).disabled = false;
           }
         });
 
