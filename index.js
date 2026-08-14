@@ -169,6 +169,39 @@ app.get("/user/info", (req, res) => {
   res.sendFile(path.join(__dirname, "public/user", "info.html"));
 });
 
+// app.get("/component/card", async (req, res) => {
+//   try {
+//     const { id } = req.body;
+
+//     const result = await db.execute({
+//       sql: "SELECT * FROM users WHERE id = ?",
+//       args: [id],
+//     });
+
+//     const user = result.rows[0];
+
+//     if (!user) {
+//       return res.json({
+//         success: false,
+//         message: "User not found",
+//       });
+//     } else {
+//       return res.json({
+//         success: true,
+//         message: "User found",
+//         id: user.id,
+//         username: user.username,
+//         accountName: user.accName,
+//       });
+
+//       res.sendFile(path.join(__dirname, "public/components", "card.html"));
+//     }
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ success: false, message: err });
+//   }
+// });
+
 app.get("/profile/@:username", async (req, res) => {
   const { username } = req.params;
 

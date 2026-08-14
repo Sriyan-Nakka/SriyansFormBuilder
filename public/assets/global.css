@@ -1,9 +1,11 @@
 * {
   color-scheme: dark;
 
-  --accent1: hsl(300, 100%, 24%);
-  --accent2: hsl(300, 100%, 35%);
-  --accent3: hsl(300, 100%, 40%);
+  --accent1: oklch(42% 0.3 345);
+  --accent2: oklch(42% 0.3 342);
+  --accent3: oklch(42% 0.3 337);
+  /* --accent2: hsl(300, 100%, 35%);
+  --accent3: hsl(300, 100%, 40%); */
   --bg1: hsl(0, 0%, 5%);
   --bg2: hsl(0, 0%, 10%);
   --border: hsl(0, 0%, 25%);
