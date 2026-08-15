@@ -1,0 +1,244 @@
+<style>
+  #card {
+    --hue: 300;
+    --chroma: 0.16;
+
+    --surface: oklch(17% calc(var(--chroma) * 0.75) var(--hue));
+    --surface-container: oklch(24% calc(var(--chroma) * 0.75) var(--hue));
+    --on-surface: oklch(91% calc(var(--chroma) * 0.55) var(--hue));
+
+    position: relative;
+    display: inline-block;
+
+    padding: 5px;
+
+    border-radius: 6px;
+    overflow: hidden;
+
+    background: white;
+
+    filter: drop-shadow(0 5px 10px oklch(60% 0.16 var(--hue) / 0.5));
+  }
+
+  #cardBg {
+    position: relative;
+    z-index: 1;
+
+    display: block;
+    line-height: 0;
+  }
+
+  #cardBg svg {
+    display: block;
+  }
+
+  #card::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background: var(--surface-container);
+    opacity: 0.45;
+
+    z-index: 2;
+
+    pointer-events: none;
+  }
+
+  #cardText {
+    position: absolute;
+    z-index: 3;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: 68%;
+    height: 58%;
+    max-width: 800px;
+
+    font-size: 10px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    text-align: center;
+
+    color: var(--on-surface);
+  }
+
+  #cardText p {
+    margin: 2px 0;
+    color: var(--on-surface);
+  }
+
+  #username {
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  #handle,
+  #id {
+    display: block;
+    color: var(--on-surface);
+    font-size: 10px;
+  }
+
+  #emoji {
+    font-size: 24px;
+  }
+
+  #cardText > * {
+    max-width: 100%;
+
+    overflow-wrap: anywhere;
+    word-break: break-word;
+
+    flex-shrink: 0;
+  }
+</style>
+
+<div id="card">
+  <div id="cardText">
+    <p id="emoji">😄</p>
+
+    <p id="username">SmartFoxx</p>
+
+    <small id="handle">@HelloBro</small>
+    <small id="id">ID: 999</small>
+  </div>
+
+  <div id="cardBg">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="128"
+      height="192"
+      viewBox="0 0 1024 1536"
+    >
+      <rect width="1024" height="1536" fill="white" />
+
+      <path
+        d="M70 45
+           C280 58 744 58 954 45
+           L954 220
+           C744 198 280 198 70 220
+           Z"
+        fill="white"
+        stroke="#111"
+        stroke-width="10"
+        stroke-linejoin="round"
+      />
+
+      <ellipse
+        cx="70"
+        cy="132"
+        rx="42"
+        ry="87"
+        fill="white"
+        stroke="#111"
+        stroke-width="10"
+      />
+
+      <ellipse
+        cx="70"
+        cy="132"
+        rx="20"
+        ry="57"
+        fill="white"
+        stroke="#111"
+        stroke-width="8"
+      />
+
+      <ellipse
+        cx="954"
+        cy="132"
+        rx="42"
+        ry="87"
+        fill="white"
+        stroke="#111"
+        stroke-width="10"
+      />
+
+      <ellipse
+        cx="954"
+        cy="132"
+        rx="20"
+        ry="57"
+        fill="white"
+        stroke="#111"
+        stroke-width="8"
+      />
+
+      <path
+        d="M70 220
+           C280 198 744 198 954 220
+           L954 1310
+           C744 1332 280 1332 70 1310
+           Z"
+        fill="white"
+        stroke="#111"
+        stroke-width="10"
+        stroke-linejoin="round"
+      />
+
+      <path
+        d="M70 1310
+           C280 1332 744 1332 954 1310
+           L954 1490
+           C744 1470 280 1470 70 1490
+           Z"
+        fill="white"
+        stroke="#111"
+        stroke-width="10"
+        stroke-linejoin="round"
+      />
+
+      <ellipse
+        cx="70"
+        cy="1400"
+        rx="42"
+        ry="90"
+        fill="white"
+        stroke="#111"
+        stroke-width="10"
+      />
+
+      <ellipse
+        cx="70"
+        cy="1400"
+        rx="20"
+        ry="57"
+        fill="white"
+        stroke="#111"
+        stroke-width="8"
+      />
+
+      <ellipse
+        cx="954"
+        cy="1400"
+        rx="42"
+        ry="90"
+        fill="white"
+        stroke="#111"
+        stroke-width="10"
+      />
+
+      <ellipse
+        cx="954"
+        cy="1400"
+        rx="20"
+        ry="57"
+        fill="white"
+        stroke="#111"
+        stroke-width="8"
+      />
+    </svg>
+  </div>
+</div>

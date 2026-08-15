@@ -21,7 +21,6 @@ main {
   border-radius: 15px;
 
   display: block;
-  width: min(345px, 100%);
   margin: 10px auto;
   box-sizing: border-box;
 }

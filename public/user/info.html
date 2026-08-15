@@ -34,7 +34,6 @@
       }
       main div {
         padding: 10px;
-        padding-bottom: 25px;
       }
 
       #editInfo {
@@ -99,13 +98,6 @@
           justify-content: center;
           align-items: center;
         }
-
-        #card {
-          width: 153.6px; /* 128 × 1.2 */
-          height: 230.4px; /* 192 × 1.2 */
-          background-color: white;
-        }
-
         #buttons {
           display: flex;
           justify-content: center;
@@ -139,10 +131,7 @@
     <main>
       <div id="cardDiv">
         <center>
-          <div
-            id="card"
-            style="width: 128px; height: 192px; background-color: white"
-          ></div>
+          <div id="card-container"></div>
           <div id="buttons">
             <button id="shareBtn">
               <svg
@@ -241,6 +230,14 @@
     <script type="module">
       import { getCookie } from "../assets/cookieFunctions.js";
 
+      const container = document.getElementById("card-container");
+      const card = container.querySelector("#card");
+      const cardText = container.querySelector("#cardText");
+      const username = container.querySelector("#username");
+      const emoji = container.querySelector("#emoji");
+      const handle = container.querySelector("#handle");
+      const id = container.querySelector("#id");
+
       const overlay = document.getElementById("loadingOverlay");
 
       const dashboardUsername = getCookie("dashboardUsername");
@@ -266,6 +263,88 @@
           document.querySelector("#pUsername").value = data.username;
           document.querySelector("#pUsername").setAttribute("readonly", true);
           document.querySelector("#pID").textContent = "ID: " + data.id;
+
+          fetch("/component/card")
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error("Network response was not ok");
+              }
+
+              return response.text();
+            })
+            .then((html) => {
+              container.innerHTML = html;
+
+              const card = container.querySelector("#card");
+              const cardText = container.querySelector("#cardText");
+              const username = container.querySelector("#username");
+              const emoji = container.querySelector("#emoji");
+              const handle = container.querySelector("#handle");
+              const id = container.querySelector("#id");
+
+              const accountName = container.querySelector("#accountName");
+
+              if (accountName) {
+                username.textContent = accountName.textContent;
+              }
+
+              handle.textContent = "@" + data.username;
+              id.textContent = "ID: " + data.id;
+
+              let fitting = false;
+
+              function setTextScale(scale) {
+                cardText.style.fontSize = `${10 * scale}px`;
+                username.style.fontSize = `${16 * scale}px`;
+                emoji.style.fontSize = `${24 * scale}px`;
+                handle.style.fontSize = `${10 * scale}px`;
+                id.style.fontSize = `${10 * scale}px`;
+              }
+
+              function textFits() {
+                return (
+                  cardText.scrollHeight <= cardText.clientHeight &&
+                  cardText.scrollWidth <= cardText.clientWidth
+                );
+              }
+
+              function fitText() {
+                if (fitting) return;
+
+                fitting = true;
+
+                let scale = 1;
+
+                setTextScale(scale);
+
+                while (!textFits() && scale > 0.2) {
+                  scale -= 0.01;
+                  setTextScale(scale);
+                }
+
+                fitting = false;
+              }
+
+              fitText();
+
+              const resizeObserver = new ResizeObserver(() => {
+                fitText();
+              });
+
+              resizeObserver.observe(card);
+              resizeObserver.observe(cardText);
+
+              if (document.fonts) {
+                document.fonts.ready.then(() => {
+                  fitText();
+                });
+              }
+            })
+            .catch((error) => {
+              console.error("Error loading card:", error);
+
+              container.innerHTML = "<p>Error loading card</p>";
+            });
 
           // add a profile button and configure it to that:
           //   document
